@@ -9,14 +9,9 @@ jobs:
   healthcheck:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write  # Allows pushing changes to the repository
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_TOKEN }}  # Use the PAT stored as a secret for authentication
 
       - name: Run Website Health Check
         id: check_status
@@ -28,7 +23,7 @@ jobs:
           
           current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
           
-          echo "Website status check as of $current_time" > status.txt
+          status_content="Website status check as of $current_time\n\n"
           
           for website in "${websites[@]}"; do
             status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
@@ -37,23 +32,23 @@ jobs:
             else
               status="❌ DOWN"
             fi
-            echo -e "Website: $website\n- Status: $status\n- Checked at: $current_time\n" >> status.txt
+            status_content+="### $website\n- Status: $status\n- Checked at: $current_time\n\n"
           done
+          
+          echo "$status_content" > status.txt
 
       - name: Update README with Health Status
         run: |
-          # Ensure proper expansion of status.txt contents in README
-          status_text=$(cat status.txt)
-          sed -i "/<!-- GitHub Action will update the section below -->/,/<!-- End of GitHub Action update section -->/c\
+          # Ensure the status.txt content is correctly inserted into the README
+          sed -i '/<!-- GitHub Action will update the section below -->/,/<!-- End of GitHub Action update section -->/c\
           <!-- GitHub Action will update the section below -->\n\
-          $status_text\n\
-          <!-- End of GitHub Action update section -->" README.md
+          $(cat status.txt)\n\
+          <!-- End of GitHub Action update section -->' README.md
 
       - name: Commit updated README
         uses: EndBug/add-and-commit@v7
         with:
-          author_name: github-actions[bot]
-          author_email: github-actions[bot]@users.noreply.github.com
+          author_name: github-actions
+          author_email: github-actions@github.com
           message: "Update website health status"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Provide the token as an environment variable for authentication
+          push: true  # Ensure changes are pushed to the repository
