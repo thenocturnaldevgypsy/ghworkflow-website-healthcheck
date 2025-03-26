@@ -2,9 +2,8 @@
 
 ## Last Website Status Check
 
-<!-- GitHub Action will insert website health updates here -->
+<!-- GitHub Action will update the section below -->
 
-<!-- Example format:
 Website: https://thenocturnaldevgyspy.vercel.app
 - Status: ✅ UP
 - Checked at: 2025-03-05 14:00:00 UTC
@@ -12,5 +11,7 @@ Website: https://thenocturnaldevgyspy.vercel.app
 Website: https://beacons.ai/thenocturnaldevgyspsy
 - Status: ✅ UP
 - Checked at: 2025-03-05 14:00:00 UTC
--->
 
+<!-- End of GitHub Action update section -->
+
+<!-- You can add additional text here without affecting the auto-updating section above -->

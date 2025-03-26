@@ -2,31 +2,50 @@ name: Website Health Check
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Runs every 30 minutes
+    - cron: '*/30 * * * *'  # This will trigger every 30 minutes
+  workflow_dispatch:
 
 jobs:
-  check-websites:
+  healthcheck:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check Website Status
-      run: |
-        websites=(
-          "https://thenocturnaldevgyspy.vercel.app"
-          "https://beacons.ai/thenocturnaldevgyspsy"
-        )
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-        for website in "${websites[@]}"
-        do
-          response=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
-          if [[ "$response" -eq 200 ]]; then
-            status="✅ UP"
-          else
-            status="❌ DOWN"
-          fi
-          timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+      - name: Run Website Health Check
+        id: check_status
+        run: |
+          websites=(
+            "https://thenocturnaldevgyspy.vercel.app"
+            "https://beacons.ai/thenocturnaldevgyspsy"
+          )
           
-          # Update README.md
-          sed -i '' "/$website/,+3d" README.md
-          echo -e "\nWebsite: $website\n- Status: $status\n- Checked at: $timestamp" >> README.md
-        done
+          current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
+          
+          echo "Website status check as of $current_time" > status.txt
+          
+          for website in "${websites[@]}"; do
+            status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
+            if [ "$status_code" -eq 200 ]; then
+              status="✅ UP"
+            else
+              status="❌ DOWN"
+            fi
+            echo -e "Website: $website\n- Status: $status\n- Checked at: $current_time\n" >> status.txt
+          done
+
+      - name: Update README with Health Status
+        run: |
+          # Make sure to replace the section between the comments in README
+          sed -i '/<!-- GitHub Action will update the section below -->/,/<!-- End of GitHub Action update section -->/c\
+          <!-- GitHub Action will update the section below -->\n\
+          $(cat status.txt)\n\
+          <!-- End of GitHub Action update section -->' README.md
+
+      - name: Commit updated README
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: github-actions
+          author_email: github-actions@github.com
+          message: "Update website health status"
