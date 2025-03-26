@@ -17,8 +17,8 @@ jobs:
         id: check_status
         run: |
           websites=(
-            "https://thenocturnaldevgyspy.vercel.app"
-            "https://beacons.ai/thenocturnaldevgyspsy"
+            "https://thenocturnaldevgypsy.vercel.app"
+            "https://beacons.ai/thenocturnaldevgypsy"
           )
           
           current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")

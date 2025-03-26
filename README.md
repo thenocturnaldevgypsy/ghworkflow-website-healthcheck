@@ -4,11 +4,11 @@
 
 <!-- GitHub Action will update the section below -->
 
-Website: https://thenocturnaldevgyspy.vercel.app
+Website: https://thenocturnaldevgypsy.vercel.app
 - Status: ✅ UP
 - Checked at: 2025-03-05 14:00:00 UTC
 
-Website: https://beacons.ai/thenocturnaldevgyspsy
+Website: https://beacons.ai/thenocturnaldevgypsy
 - Status: ✅ UP
 - Checked at: 2025-03-05 14:00:00 UTC
 
