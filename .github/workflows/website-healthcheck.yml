@@ -1,46 +1,32 @@
-name: Check Website Status
+name: Website Health Check
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Runs every day at midnight UTC
-  workflow_dispatch:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
 
 jobs:
-  check_websites:
+  check-websites:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Check Website Status
+      run: |
+        websites=(
+          "https://thenocturnaldevgyspy.vercel.app"
+          "https://beacons.ai/thenocturnaldevgyspsy"
+        )
 
-      - name: Check status of websites
-        run: |
-          WEBSITES=(
-            "https://thenocturnaldevgypsy.vercel.app"
-            "https://beacons.ai/thenocturnaldevgypsy"
-          )
-
-          STATUS_FILE="website-status.md"
-          echo "# Website Status" > $STATUS_FILE
-          echo "Last checked on $(date -u)" >> $STATUS_FILE
-          echo "" >> $STATUS_FILE
-
-          for WEBSITE in "${WEBSITES[@]}"; do
-            STATUS=$(curl -o /dev/null -s -w "%{http_code}" "$WEBSITE")
-            if [ "$STATUS" -eq 200 ]; then
-              echo "✅ $WEBSITE is up (HTTP $STATUS)" >> $STATUS_FILE
-            else
-              echo "❌ $WEBSITE is down (HTTP $STATUS)" >> $STATUS_FILE
-            fi
-          done
-
-          cat $STATUS_FILE
-        shell: bash
-
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add website-status.md || echo "Nothing to add"
-          git diff --cached --quiet || git commit -m "chore: update website status [skip ci]"
-          git push
-        shell: bash
+        for website in "${websites[@]}"
+        do
+          response=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
+          if [[ "$response" -eq 200 ]]; then
+            status="✅ UP"
+          else
+            status="❌ DOWN"
+          fi
+          timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          # Update README.md
+          sed -i '' "/$website/,+3d" README.md
+          echo -e "\nWebsite: $website\n- Status: $status\n- Checked at: $timestamp" >> README.md
+        done
