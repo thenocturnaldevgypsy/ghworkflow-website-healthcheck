@@ -9,9 +9,14 @@ jobs:
   healthcheck:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # Allows pushing changes to the repository
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}  # Use the PAT stored as a secret for authentication
 
       - name: Run Website Health Check
         id: check_status
@@ -46,6 +51,8 @@ jobs:
       - name: Commit updated README
         uses: EndBug/add-and-commit@v7
         with:
-          author_name: github-actions
-          author_email: github-actions@github.com
+          author_name: github-actions[bot]
+          author_email: github-actions[bot]@users.noreply.github.com
           message: "Update website health status"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Provide the token as an environment variable for authentication
