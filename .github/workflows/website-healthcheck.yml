@@ -42,11 +42,12 @@ jobs:
 
       - name: Update README with Health Status
         run: |
-          # Make sure to replace the section between the comments in README
-          sed -i '/<!-- GitHub Action will update the section below -->/,/<!-- End of GitHub Action update section -->/c\
+          # Ensure proper expansion of status.txt contents in README
+          status_text=$(cat status.txt)
+          sed -i "/<!-- GitHub Action will update the section below -->/,/<!-- End of GitHub Action update section -->/c\
           <!-- GitHub Action will update the section below -->\n\
-          $(cat status.txt)\n\
-          <!-- End of GitHub Action update section -->' README.md
+          $status_text\n\
+          <!-- End of GitHub Action update section -->" README.md
 
       - name: Commit updated README
         uses: EndBug/add-and-commit@v7
