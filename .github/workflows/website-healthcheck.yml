@@ -14,7 +14,7 @@ jobs:
 
       - name: Check websites and generate reports
         run: |
-          mkdir -p "Healthcheck Reports"
+          mkdir -p "Healthcheck-Reports"
 
           WEBSITES=(
             "https://thenocturnaldevgyspy.vercel.app"
@@ -22,12 +22,12 @@ jobs:
           )
 
           TIMESTAMP=$(date -u +"%d%m%Y-%H-%M")
-          REPORT_FILE="Healthcheck Reports/report-$TIMESTAMP.md"
+          REPORT_FILE="Healthcheck-Reports/report-$TIMESTAMP.md"
 
           echo "## Last Website Status Check" > README.md
           echo "⏱️ This report is automatically refreshed every 30 minutes." >> README.md
 
-          echo "## Website Health Check Report ($TIMESTAMP UTC)" > $REPORT_FILE
+          echo "## Website Health Check Report ($TIMESTAMP UTC)" > "$REPORT_FILE"
 
           for WEBSITE in "${WEBSITES[@]}"; do
             STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "$WEBSITE")
@@ -44,16 +44,16 @@ jobs:
             echo "- Status: $STATUS" >> README.md
             echo "- Checked at: $CHECKED_AT" >> README.md
 
-            echo "" >> $REPORT_FILE
-            echo "Website: $WEBSITE" >> $REPORT_FILE
-            echo "- Status: $STATUS" >> $REPORT_FILE
-            echo "- Checked at: $CHECKED_AT" >> $REPORT_FILE
+            echo "" >> "$REPORT_FILE"
+            echo "Website: $WEBSITE" >> "$REPORT_FILE"
+            echo "- Status: $STATUS" >> "$REPORT_FILE"
+            echo "- Checked at: $CHECKED_AT" >> "$REPORT_FILE"
           done
 
       - name: Commit updated reports
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md "Healthcheck Reports/report-*.md"
+          git add README.md "Healthcheck-Reports/report-*.md"
           git commit -m "Update healthcheck report [skip ci]" || echo "No changes to commit"
           git push
