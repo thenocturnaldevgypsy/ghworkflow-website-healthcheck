@@ -10,28 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write  # Grants write permission to update the README.md
+      contents: write  # Grants write permission to update README.md
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Run Website Health Check
-        id: check_status
         run: |
           # Define the websites to check
           websites=(
             "https://thenocturnaldevgypsy.vercel.app"
             "https://beacons.ai/thenocturnaldevgypsy"
           )
-          
-          # Get the current timestamp in UTC
+
+          # Get the current timestamp
           current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
-          
-          # Initialize the status table content
-          status_table="Website Status Check\nTimestamp: $current_time\n\n| Domain/Website | Status |\n|---|---|"
-          
-          # Loop through each website and check its status
+
+          # Initialize the status content with the header and table header
+          status_content="Website Status Check  \nTimestamp: $current_time  \n\n"
+          status_content+="| Domain/Website | Status |\n"
+          status_content+="|---|---|\n"
+
+          # Check each website and append the result to the status content
           for website in "${websites[@]}"; do
             status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
             if [ "$status_code" -eq 200 ]; then
@@ -39,14 +40,12 @@ jobs:
             else
               status="❌ DOWN - Error Code: $status_code"
             fi
-            status_table+="\n| $website | $status |"
+            status_content+="| $website | $status |\n"
           done
-          
-          # Escape slashes and ampersands for use in sed
-          status_table_escaped=$(echo "$status_table" | sed 's/[\/&]/\\&/g')
-          
-          # Update the README.md file in place
-          sed -i "/<!-- status_table_start -->/,/<!-- status_table_end -->/c\<!-- status_table_start -->\n$status_table_escaped\n<!-- status_table_end -->" README.md
+
+          # Update the README.md file
+          sed -i '/<!-- Website Status Start -->/,/<!-- Website Status End -->/c\
+          <!-- Website Status Start -->\n'"$status_content"'<!-- Website Status End -->' README.md
 
       - name: Commit and push changes
         run: |
