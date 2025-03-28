@@ -5,7 +5,13 @@ This repository automatically checks the status of configured websites every 30 
 ## Last Website Status Check
 
 <!-- Website Status Start -->
-<!-- The status table will be inserted here -->
+Website Status Check  
+Timestamp: 2025-03-28 06:14:36 UTC  
+
+| Domain/Website | Status |
+|---|---|
+| https://thenocturnaldevgypsy.vercel.app | ✅ UP |
+| https://beacons.ai/thenocturnaldevgypsy | ❌ DOWN - Error Code: 403 |
 <!-- Website Status End -->
 
 ⏱️ **This report is automatically refreshed every 30 minutes.**
