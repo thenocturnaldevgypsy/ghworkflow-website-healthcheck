@@ -4,8 +4,9 @@ This repository automatically checks the status of configured websites every 30 
 
 ## Last Website Status Check
 
-<!-- status_table_start -->
-<!-- status_table_end -->
+<!-- Website Status Start -->
+<!-- The status table will be inserted here -->
+<!-- Website Status End -->
 
 ⏱️ **This report is automatically refreshed every 30 minutes.**
 
