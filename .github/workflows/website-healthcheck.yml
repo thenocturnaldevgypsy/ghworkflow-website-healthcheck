@@ -28,7 +28,7 @@ jobs:
           current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
 
           # Initialize the status content with the header and table header
-          status_content="Website Status Check  \nTimestamp: $current_time  \n\n"
+          status_content="Timestamp: $current_time  \n\n"
           status_content+="| Domain/Website | Status |\n"
           status_content+="|---|---|\n"
 

@@ -2,7 +2,7 @@
 
 This repository automatically checks the status of configured websites every 30 minutes using GitHub Actions.
 
-## Last Website Status Check
+## Website Status Check
 
 <!-- Website Status Start -->
 Website Status Check  
