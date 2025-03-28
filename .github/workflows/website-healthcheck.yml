@@ -2,7 +2,7 @@ name: Website Health Check
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # This will trigger every 30 minutes
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
   workflow_dispatch:
 
 jobs:
@@ -10,50 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write  # Grant write permission to update the README.md
+      contents: write  # Grants write permission to update the README.md
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run Website Health Check
         id: check_status
         run: |
+          # Define the websites to check
           websites=(
             "https://thenocturnaldevgypsy.vercel.app"
             "https://beacons.ai/thenocturnaldevgypsy"
           )
           
+          # Get the current timestamp in UTC
           current_time=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
           
-          status_content="Website status check as of $current_time\n\n"
+          # Initialize the status table content
+          status_table="Website Status Check\nTimestamp: $current_time\n\n| Domain/Website | Status |\n|---|---|"
           
+          # Loop through each website and check its status
           for website in "${websites[@]}"; do
             status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null "$website")
             if [ "$status_code" -eq 200 ]; then
               status="✅ UP"
             else
-              status="❌ DOWN"
+              status="❌ DOWN - Error Code: $status_code"
             fi
-            status_content+="### $website\n- Status: $status\n- Checked at: $current_time\n\n"
+            status_table+="\n| $website | $status |"
           done
           
-          # Define the start and end markers for the section to update
-          start_marker="<!-- GitHub Action will update the section below -->"
-          end_marker="<!-- End of GitHub Action update section -->"
+          # Escape slashes and ampersands for use in sed
+          status_table_escaped=$(echo "$status_table" | sed 's/[\/&]/\\&/g')
           
-          # Read the existing README.md and update the section
-          awk -v start="$start_marker" -v end="$end_marker" -v content="$status_content" '
-            BEGIN {in_section=0}
-            $0 ~ start {in_section=1; print; print content; next}
-            $0 ~ end {in_section=0}
-            !in_section {print}
-          ' README.md > temp_README.md
-          
-          # Replace the old README.md with the updated one
-          mv temp_README.md README.md
+          # Update the README.md file in place
+          sed -i "/<!-- status_table_start -->/,/<!-- status_table_end -->/c\<!-- status_table_start -->\n$status_table_escaped\n<!-- status_table_end -->" README.md
 
-      - name: Commit updated README
+      - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -61,4 +56,4 @@ jobs:
           git commit -m "Update website health status"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

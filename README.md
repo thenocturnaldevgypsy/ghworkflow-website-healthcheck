@@ -1,15 +1,25 @@
+# Website Healthcheck Status
+
+This repository automatically checks the status of configured websites every 30 minutes using GitHub Actions.
+
 ## Last Website Status Check
 
-<!-- GitHub Action will update the section below -->
-Website status check as of 2025-03-28 05:41:14 UTC
+<!-- status_table_start -->
+<!-- status_table_end -->
 
-### https://thenocturnaldevgypsy.vercel.app
-- Status: ✅ UP
-- Checked at: 2025-03-28 05:41:14 UTC
+⏱️ **This report is automatically refreshed every 30 minutes.**
 
-### https://beacons.ai/thenocturnaldevgypsy
-- Status: ❌ DOWN
-- Checked at: 2025-03-28 05:41:14 UTC
+---
 
+### ✅ How It Works
+- The workflow pings each website and records its status (UP or DOWN).
+- Updates this `README.md` with the most recent check results.
+- The automated check runs every 30 minutes without manual intervention.
 
-<!-- End of GitHub Action update section -->
+---
+
+## Websites Monitored
+- https://thenocturnaldevgypsy.vercel.app
+- https://beacons.ai/thenocturnaldevgypsy
+
+*More websites can be added easily in future updates.*
