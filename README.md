@@ -24,6 +24,7 @@ Timestamp: 2025-04-18 13:28:28 UTC
 ---
 
 ## Websites Monitored
+- https://thenocturnaldevgypsy.github.io
 - https://thenocturnaldevgypsy.vercel.app
 - https://beacons.ai/thenocturnaldevgypsy
 

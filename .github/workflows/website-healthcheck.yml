@@ -20,6 +20,7 @@ jobs:
         run: |
           # Define the websites to check
           websites=(
+            "https://thenocturnaldevgypsy.github.io"
             "https://thenocturnaldevgypsy.vercel.app"
             "https://beacons.ai/thenocturnaldevgypsy"
           )
