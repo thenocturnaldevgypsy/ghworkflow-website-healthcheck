@@ -5,12 +5,12 @@ This repository automatically checks the status of configured websites every 30 
 ## Website Status Check
 
 <!-- Website Status Start -->
-Timestamp: 2025-10-20 07:14:29 UTC  
+Timestamp: 2025-10-20 07:36:53 UTC  
 
 | Domain/Website | Status |
 |---|---|
 | https://thenocturnaldevgypsy.github.io | ✅ UP |
-| https://thenocturnaldevgypsy.vercel.app | ❌ DOWN - Error Code: 500 |
+| https://thenocturnaldevgypsy.vercel.app | ✅ UP |
 | https://beacons.ai/thenocturnaldevgypsy | ❌ DOWN - Error Code: 403 |
 <!-- Website Status End -->
 
