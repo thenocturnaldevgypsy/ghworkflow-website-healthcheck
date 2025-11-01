@@ -5,12 +5,12 @@ This repository automatically checks the status of configured websites every 30 
 ## Website Status Check
 
 <!-- Website Status Start -->
-Timestamp: 2025-11-01 13:37:57 UTC  
+Timestamp: 2025-11-01 14:10:45 UTC  
 
 | Domain/Website | Status |
 |---|---|
 | https://thenocturnaldevgypsy.github.io | ✅ UP |
-| https://thenocturnaldevgypsy.vercel.app | ✅ UP |
+| https://thenocturnaldevgypsy.vercel.app | ❌ DOWN - Error Code: 404 |
 | https://beacons.ai/thenocturnaldevgypsy | ❌ DOWN - Error Code: 403 |
 <!-- Website Status End -->
 
