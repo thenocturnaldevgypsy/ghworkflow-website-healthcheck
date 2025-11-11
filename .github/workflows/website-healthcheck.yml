@@ -21,7 +21,8 @@ jobs:
           # Define the websites to check
           websites=(
             "https://thenocturnaldevgypsy.github.io"
-            "https://thenocturnaldevgypsy.vercel.app"
+            "https://www.thenocturnaldevgypsy.work"
+            "https://linktr.ee/thenocturnaldevgypsy"
             "https://beacons.ai/thenocturnaldevgypsy"
           )
 
