@@ -5,11 +5,11 @@ This repository automatically checks the status of configured websites every 30 
 ## Website Status Check
 
 <!-- Website Status Start -->
-Timestamp: 2025-11-22 16:41:53 UTC  
+Timestamp: 2025-11-22 17:10:56 UTC  
 
 | Domain/Website | Status |
 |---|---|
-| https://thenocturnaldevgypsy.github.io | ❌ DOWN - Error Code: 404 |
+| https://thenocturnaldevgypsy.github.io | ✅ UP |
 | https://www.thenocturnaldevgypsy.work | ❌ DOWN - Error Code: 301 |
 | https://linktr.ee/thenocturnaldevgypsy | ✅ UP |
 | https://beacons.ai/thenocturnaldevgypsy | ❌ DOWN - Error Code: 403 |
